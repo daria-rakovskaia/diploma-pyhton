@@ -1,1 +1,53 @@
-ocr_model
+# Папки с моделями
+/det_model/
+/rec_model/
+
+# Виртуальное окружение
+/venv/
+
+# Файлы окружения и секреты
+.env
+*.env
+secrets.json
+config.ini
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyCharm/IDE файлы
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.ropeproject
+
+# Логи и временные файлы
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Артефакты сборки/установки
+build/
+dist/
+*.egg-info/
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter ноутбуки
+.ipynb_checkpoints/
+*.ipynb
+
+# Тестовые данные
+test_data/
+samples/

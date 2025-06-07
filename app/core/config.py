@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     aws_secret_access_key: str
     s3_endpoint_url: str
     s3_bucket_name: str
+    s3_bucket_id: str
     groq_api_key: str
 
     class Config:

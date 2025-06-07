@@ -3,7 +3,8 @@ from paddleocr import PaddleOCR
 ocr_engine = PaddleOCR(
     use_angle_cls=False,
     lang='en',
-    det_model_dir='ocr_model',
+    det_model_dir='det_model',
+    rec_model_dir='rec_model',
     use_gpu=False
 )
 

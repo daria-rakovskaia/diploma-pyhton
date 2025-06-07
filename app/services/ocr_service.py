@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import UploadFile
 from typing import Tuple, List
 from PIL import Image
@@ -9,9 +10,9 @@ from app.services.s3_service import S3Service
 async def handle_ocr_image(
         image: UploadFile,
         s3_service: S3Service,
-        year: int,
-        module: int,
+        check_date: datetime,
         student_id: int,
+        work_code: int,
         assignment_id: int,
         file_index: int
 ) -> Tuple[List[str], str]:
@@ -20,9 +21,10 @@ async def handle_ocr_image(
 
     :param image: Загруженный файл
     :param s3_service: Экземпляр сервиса для работы с S3
-    :param year: Год сдачи работы
-    :param module: Номер модуля
+    :param file_obj: Файл в памяти в формате BytesIO
+    :param check_date: Дата проверки работы
     :param student_id: ID студента
+    :param work_code: Код работы
     :param assignment_id: ID задания
     :param file_index: Порядковый номер изображения
     :return: Кортеж из списка распознанных строк и S3-пути к файлу
@@ -33,9 +35,9 @@ async def handle_ocr_image(
     original_stream.seek(0)
     object_key = await s3_service.upload_student_file(
         file_obj=original_stream,
-        year=year,
-        module=module,
+        check_date=check_date,
         student_id=student_id,
+        work_code=work_code,
         assignment_id=assignment_id,
         file_name=f"sample{file_index}.png"
     )

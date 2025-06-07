@@ -12,6 +12,7 @@ def get_s3_client() -> S3Service:
         access_key=settings.aws_access_key_id,
         secret_key=settings.aws_secret_access_key,
         endpoint_url=settings.s3_endpoint_url,
-        bucket_name=settings.s3_bucket_name
+        bucket_name=settings.s3_bucket_name,
+        bucket_id=settings.s3_bucket_id
     )
     return S3Service(repository)

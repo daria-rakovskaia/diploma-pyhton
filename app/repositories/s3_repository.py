@@ -2,19 +2,21 @@ from io import BytesIO
 from contextlib import asynccontextmanager
 from aiobotocore.session import get_session
 from botocore.exceptions import ClientError
+from urllib.parse import quote
 
 class S3Repository:
     """
     Репозиторий для работы с S3-хранилищем
     """
-    def __init__(self, access_key, secret_key, endpoint_url, bucket_name):
+    def __init__(self, access_key, secret_key, endpoint_url, bucket_name, bucket_id):
         """
         Инициализирует репозиторий S3 с указанными параметрами подключения
 
         :param access_key: Ключ доступа к S3
         :param secret_key: Секретный ключ доступа к S3
-        :param endpoint_url: URL эндпоинта S3 (например, Selectel)
+        :param endpoint_url: URL эндпоинта S3
         :param bucket_name: Название бакета, в который осуществляется загрузка
+        :param bucket_id: ID бакета, в который осуществляется загрузка
         """
         self.config = {
             "aws_access_key_id": access_key,
@@ -22,6 +24,7 @@ class S3Repository:
             "endpoint_url": endpoint_url,
         }
         self.bucket_name = bucket_name
+        self.bucket_id = bucket_id
         self.session = get_session()
 
     @asynccontextmanager
@@ -39,7 +42,7 @@ class S3Repository:
         Загружает файл в S3 по указанному ключу
 
         :param file_obj: Файл в памяти в формате BytesIO
-        :param object_key: Ключ (путь) объекта в бакете, например '2025/student/1/file.png'
+        :param object_key: Ключ объекта
         :return: RuntimeError: При ошибке загрузки в S3
         """
         try:
@@ -51,3 +54,15 @@ class S3Repository:
                 )
         except ClientError as e:
             raise RuntimeError(f"S3 upload error: {e}")
+
+    def gen_url(
+            self,
+            object_key: str
+    ) -> str:
+        """
+        Генерирует URL объекта
+
+        :param object_key: Ключ объекта
+        :return: URL объекта
+        """
+        return f"{self.bucket_id}.selstorage.ru/{quote(object_key)}"
